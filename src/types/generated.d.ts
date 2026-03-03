@@ -3367,7 +3367,7 @@ export interface operations {
                     /** @enum {string} */
                     sourceChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
                     /** @enum {string} */
-                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
+                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet" | "polymarket";
                     token: string;
                     amount: string;
                     destinationToken?: string;
@@ -3378,7 +3378,7 @@ export interface operations {
                     /** @enum {string} */
                     sourceChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
                     /** @enum {string} */
-                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
+                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet" | "polymarket";
                     token: string;
                     amount: string;
                     destinationToken?: string;
@@ -3389,7 +3389,7 @@ export interface operations {
                     /** @enum {string} */
                     sourceChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
                     /** @enum {string} */
-                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet";
+                    destinationChain: "ethereum" | "base" | "polygon" | "arbitrum-one" | "hyperliquid" | "sepolia" | "base-sepolia" | "solana" | "solana-devnet" | "polymarket";
                     token: string;
                     amount: string;
                     destinationToken?: string;

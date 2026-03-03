@@ -2327,7 +2327,8 @@
                       "sepolia",
                       "base-sepolia",
                       "solana",
-                      "solana-devnet"
+                      "solana-devnet",
+                      "polymarket"
                     ]
                   },
                   "token": {
@@ -2383,7 +2384,8 @@
                       "sepolia",
                       "base-sepolia",
                       "solana",
-                      "solana-devnet"
+                      "solana-devnet",
+                      "polymarket"
                     ]
                   },
                   "token": {
@@ -2439,7 +2441,8 @@
                       "sepolia",
                       "base-sepolia",
                       "solana",
-                      "solana-devnet"
+                      "solana-devnet",
+                      "polymarket"
                     ]
                   },
                   "token": {
