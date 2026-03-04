@@ -609,6 +609,62 @@ export const TOOL_DEFINITIONS = [
         },
     },
     {
+        name: "store_credit_card",
+        description: "Store credit card details in encrypted secret storage for this agent. " +
+            "Use this dedicated tool for payment card data instead of store_key.",
+        input_schema: {
+            type: "object",
+            properties: {
+                card_number: {
+                    type: "string",
+                    description: "Card number (PAN)",
+                },
+                expiry_month: {
+                    type: "string",
+                    description: "Expiry month (1-12). Optional if expiration is provided.",
+                },
+                expiry_year: {
+                    type: "string",
+                    description: "Expiry year (2 or 4 digits). Optional if expiration is provided.",
+                },
+                expiration: {
+                    type: "string",
+                    description: "Expiration in MM/YYYY format (alternative to expiry_month + expiry_year)",
+                },
+                cvc: {
+                    type: "string",
+                    description: "Card verification code (3-4 digits)",
+                },
+                cardholder_name: {
+                    type: "string",
+                    description: "Name on card",
+                },
+                billing_address: {
+                    type: "object",
+                    description: "Billing address",
+                    properties: {
+                        line1: { type: "string" },
+                        line2: { type: "string" },
+                        city: { type: "string" },
+                        state: { type: "string" },
+                        postal_code: { type: "string" },
+                        country: { type: "string" },
+                    },
+                    required: ["line1", "city", "state", "postal_code", "country"],
+                },
+                label: {
+                    type: "string",
+                    description: "Optional card label/nickname",
+                },
+                metadata: {
+                    type: "object",
+                    description: "Optional metadata to store alongside the card",
+                },
+            },
+            required: ["card_number", "cvc", "cardholder_name", "billing_address"],
+        },
+    },
+    {
         name: "get_key_list",
         description: "Retrieve a list of stored keys for this agent. " +
             "Returns metadata only (no decrypted key values).",

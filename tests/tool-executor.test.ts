@@ -105,6 +105,48 @@ describe("ToolExecutor", () => {
     });
   });
 
+  it("routes store_credit_card to /api/credit-cards", async () => {
+    const http = {
+      get: vi.fn(),
+      post: vi.fn().mockResolvedValue({ success: true }),
+    };
+    const executor = new ToolExecutor(http as any, "agent-1");
+
+    const result = await executor.execute("store_credit_card", {
+      card_number: "4111111111111111",
+      expiration: "12/2030",
+      cvc: "123",
+      cardholder_name: "Jane Doe",
+      billing_address: {
+        line1: "123 Main St",
+        city: "San Francisco",
+        state: "CA",
+        postal_code: "94105",
+        country: "US",
+      },
+      label: "personal",
+    });
+
+    expect(result.status).toBe("success");
+    expect(http.post).toHaveBeenCalledWith("/api/credit-cards", {
+      card_number: "4111111111111111",
+      expiry_month: undefined,
+      expiry_year: undefined,
+      expiration: "12/2030",
+      cvc: "123",
+      cardholder_name: "Jane Doe",
+      billing_address: {
+        line1: "123 Main St",
+        city: "San Francisco",
+        state: "CA",
+        postal_code: "94105",
+        country: "US",
+      },
+      label: "personal",
+      metadata: undefined,
+    });
+  });
+
   it("routes get_key_value to /api/agent-keys/value", async () => {
     const http = {
       get: vi.fn().mockResolvedValue({ key: { service: "openai", key: "sk" } }),

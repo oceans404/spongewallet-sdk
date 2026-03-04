@@ -1316,6 +1316,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/credit-cards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["postApiCredit-cards"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/agent-keys": {
         parameters: {
             query?: never;
@@ -4406,6 +4422,82 @@ export interface operations {
                     agentId?: string;
                 };
                 "multipart/form-data": {
+                    agentId?: string;
+                };
+            };
+        };
+        responses: never;
+    };
+    "postApiCredit-cards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    card_number: string;
+                    expiry_month?: string;
+                    expiry_year?: string;
+                    expiration?: string;
+                    cvc: string;
+                    cardholder_name: string;
+                    billing_address: {
+                        line1: string;
+                        line2?: string;
+                        city: string;
+                        state: string;
+                        postal_code: string;
+                        country: string;
+                    };
+                    label?: string;
+                    metadata?: {
+                        [key: string]: unknown;
+                    };
+                    agentId?: string;
+                };
+                "application/x-www-form-urlencoded": {
+                    card_number: string;
+                    expiry_month?: string;
+                    expiry_year?: string;
+                    expiration?: string;
+                    cvc: string;
+                    cardholder_name: string;
+                    billing_address: {
+                        line1: string;
+                        line2?: string;
+                        city: string;
+                        state: string;
+                        postal_code: string;
+                        country: string;
+                    };
+                    label?: string;
+                    metadata?: {
+                        [key: string]: unknown;
+                    };
+                    agentId?: string;
+                };
+                "multipart/form-data": {
+                    card_number: string;
+                    expiry_month?: string;
+                    expiry_year?: string;
+                    expiration?: string;
+                    cvc: string;
+                    cardholder_name: string;
+                    billing_address: {
+                        line1: string;
+                        line2?: string;
+                        city: string;
+                        state: string;
+                        postal_code: string;
+                        country: string;
+                    };
+                    label?: string;
+                    metadata?: {
+                        [key: string]: unknown;
+                    };
                     agentId?: string;
                 };
             };

@@ -199,7 +199,7 @@ Master-key automation is available via backend REST endpoints, not a dedicated S
 Low-level HTTP client. Exported for advanced usage.
 
 ```typescript
-import { HttpClient } from "@spongewallet/sdk";
+import { HttpClient } from "@paysponge/sdk";
 
 const http = new HttpClient({
   baseUrl: "https://api.wallet.paysponge.com",
@@ -223,7 +223,7 @@ const data = await http.get("/api/agents");
 REST wrapper for the public tool endpoints (balances, transfers, etc).
 
 ```typescript
-import { HttpClient, PublicToolsApi } from "@spongewallet/sdk";
+import { HttpClient, PublicToolsApi } from "@paysponge/sdk";
 
 const http = new HttpClient({ apiKey: "sponge_test_..." });
 const tools = new PublicToolsApi(http);
@@ -236,7 +236,7 @@ const balances = await tools.getDetailedBalances({ onlyUsdc: true });
 Error thrown by HTTP client.
 
 ```typescript
-import { SpongeApiError } from "@spongewallet/sdk";
+import { SpongeApiError } from "@paysponge/sdk";
 
 try {
   await wallet.transfer({ ... });

@@ -77,7 +77,7 @@ import {
   loadCredentials,
   deleteCredentials,
   getCredentialsPath,
-} from "@spongewallet/sdk";
+} from "@paysponge/sdk";
 
 // Check
 if (hasCredentials()) {

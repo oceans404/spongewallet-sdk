@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-bun add @spongewallet/sdk
+npm install @paysponge/sdk
 ```
 
 ## Quick Start
@@ -11,7 +11,7 @@ bun add @spongewallet/sdk
 ### Connect to a wallet
 
 ```typescript
-import { SpongeWallet } from "@spongewallet/sdk";
+import { SpongeWallet } from "@paysponge/sdk";
 
 const wallet = await SpongeWallet.connect();
 

@@ -4792,6 +4792,235 @@
         "operationId": "postApiSignup-bonusClaim"
       }
     },
+    "/api/credit-cards": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "card_number",
+                  "cvc",
+                  "cardholder_name",
+                  "billing_address"
+                ],
+                "properties": {
+                  "card_number": {
+                    "type": "string"
+                  },
+                  "expiry_month": {
+                    "type": "string"
+                  },
+                  "expiry_year": {
+                    "type": "string"
+                  },
+                  "expiration": {
+                    "type": "string"
+                  },
+                  "cvc": {
+                    "type": "string"
+                  },
+                  "cardholder_name": {
+                    "type": "string"
+                  },
+                  "billing_address": {
+                    "type": "object",
+                    "required": [
+                      "line1",
+                      "city",
+                      "state",
+                      "postal_code",
+                      "country"
+                    ],
+                    "properties": {
+                      "line1": {
+                        "type": "string"
+                      },
+                      "line2": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(.*)$": {}
+                    }
+                  },
+                  "agentId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "card_number",
+                  "cvc",
+                  "cardholder_name",
+                  "billing_address"
+                ],
+                "properties": {
+                  "card_number": {
+                    "type": "string"
+                  },
+                  "expiry_month": {
+                    "type": "string"
+                  },
+                  "expiry_year": {
+                    "type": "string"
+                  },
+                  "expiration": {
+                    "type": "string"
+                  },
+                  "cvc": {
+                    "type": "string"
+                  },
+                  "cardholder_name": {
+                    "type": "string"
+                  },
+                  "billing_address": {
+                    "type": "object",
+                    "required": [
+                      "line1",
+                      "city",
+                      "state",
+                      "postal_code",
+                      "country"
+                    ],
+                    "properties": {
+                      "line1": {
+                        "type": "string"
+                      },
+                      "line2": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(.*)$": {}
+                    }
+                  },
+                  "agentId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "card_number",
+                  "cvc",
+                  "cardholder_name",
+                  "billing_address"
+                ],
+                "properties": {
+                  "card_number": {
+                    "type": "string"
+                  },
+                  "expiry_month": {
+                    "type": "string"
+                  },
+                  "expiry_year": {
+                    "type": "string"
+                  },
+                  "expiration": {
+                    "type": "string"
+                  },
+                  "cvc": {
+                    "type": "string"
+                  },
+                  "cardholder_name": {
+                    "type": "string"
+                  },
+                  "billing_address": {
+                    "type": "object",
+                    "required": [
+                      "line1",
+                      "city",
+                      "state",
+                      "postal_code",
+                      "country"
+                    ],
+                    "properties": {
+                      "line1": {
+                        "type": "string"
+                      },
+                      "line2": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "postal_code": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(.*)$": {}
+                    }
+                  },
+                  "agentId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postApiCredit-cards"
+      }
+    },
     "/api/agent-keys": {
       "post": {
         "requestBody": {

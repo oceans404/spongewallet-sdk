@@ -1,6 +1,6 @@
 {
   "name": "@paysponge/sdk",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "type": "module",
   "description": "SDK for spinning up wallets for AI agents with Claude Agent SDK integration",
   "main": "./dist/index.js",
@@ -32,7 +32,8 @@
     "example:transfer": "bun run examples/transfer.ts",
     "example:claude": "bun run examples/claude-agent.ts",
     "example:tools": "bun run examples/direct-tools.ts",
-    "example:user-email-flow": "bun run examples/user-email-flow.ts"
+    "example:user-email-flow": "bun run examples/user-email-flow.ts",
+    "example:per-user-agents": "bun run examples/per-user-agents.ts"
   },
   "dependencies": {
     "clipboardy": "^4.0.0",

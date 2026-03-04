@@ -97,12 +97,21 @@ for await (const msg of query({
 
 ## Documentation
 
+**[Early Access Docs →](./docs/index.md)**
+
+Quickstarts by use case:
+- [Self-Registration](./docs/quickstart-self-registration.md) — Create a wallet instantly, claim later
+- [AI Agents](./docs/quickstart-ai-agents.md) — Give Claude wallet tools via MCP or direct tools
+- [Platforms](./docs/quickstart-platforms.md) — Programmatic agent creation with master keys
+- [Trading & DeFi](./docs/quickstart-trading.md) — Swaps, perps, bridges, and x402 payments
+
+Reference:
 - [Getting Started](./docs/getting-started.md)
 - [Authentication](./docs/authentication.md)
 - [Wallets & Transfers](./docs/wallets-and-transfers.md)
 - [Claude Integration](./docs/claude-integration.md)
 - [API Reference](./docs/api-reference.md)
-- [OpenAPI Method Generation Plan](./docs/openapi-sdk-method-generation-plan.md)
+- [Master Keys](./docs/master-keys.md)
 
 ## CLI
 

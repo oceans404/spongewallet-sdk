@@ -8,7 +8,7 @@ Use `wallet.mcp()` to get the MCP server configuration:
 
 ```typescript
 import { query } from "@anthropic-ai/claude-agent-sdk";
-import { SpongeWallet } from "@spongewallet/sdk";
+import { SpongeWallet } from "@paysponge/sdk";
 
 const wallet = await SpongeWallet.connect();
 
@@ -43,7 +43,7 @@ Tool execution calls the REST API endpoints directly (no MCP JSON-RPC).
 
 ```typescript
 import Anthropic from "@anthropic-ai/sdk";
-import { SpongeWallet } from "@spongewallet/sdk";
+import { SpongeWallet } from "@paysponge/sdk";
 
 const anthropic = new Anthropic();
 const wallet = await SpongeWallet.connect();

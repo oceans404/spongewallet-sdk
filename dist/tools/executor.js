@@ -196,6 +196,18 @@ export class ToolExecutor {
                     label: args.label,
                     metadata: args.metadata,
                 });
+            case "store_credit_card":
+                return this.http.post("/api/credit-cards", {
+                    card_number: args.card_number,
+                    expiry_month: args.expiry_month,
+                    expiry_year: args.expiry_year,
+                    expiration: args.expiration,
+                    cvc: args.cvc,
+                    cardholder_name: args.cardholder_name,
+                    billing_address: args.billing_address,
+                    label: args.label,
+                    metadata: args.metadata,
+                });
             case "get_key_list":
                 return this.http.get("/api/agent-keys", {});
             case "get_key_value":
