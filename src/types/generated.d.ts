@@ -2883,15 +2883,12 @@ export interface operations {
             content: {
                 "application/json": {
                     amount: string;
-                    destination?: string;
                 };
                 "application/x-www-form-urlencoded": {
                     amount: string;
-                    destination?: string;
                 };
                 "multipart/form-data": {
                     amount: string;
-                    destination?: string;
                 };
             };
         };
