@@ -4071,6 +4071,16 @@ export interface operations {
                         postalCode?: string;
                         country?: string;
                     };
+                    email?: string;
+                    shippingAddress?: {
+                        name?: string;
+                        line1?: string;
+                        line2?: string;
+                        city?: string;
+                        state?: string;
+                        postalCode?: string;
+                        country?: string;
+                    };
                     cardProvider?: string;
                     setAsDefault?: boolean;
                 };
@@ -4091,6 +4101,16 @@ export interface operations {
                         postalCode?: string;
                         country?: string;
                     };
+                    email?: string;
+                    shippingAddress?: {
+                        name?: string;
+                        line1?: string;
+                        line2?: string;
+                        city?: string;
+                        state?: string;
+                        postalCode?: string;
+                        country?: string;
+                    };
                     cardProvider?: string;
                     setAsDefault?: boolean;
                 };
@@ -4104,6 +4124,16 @@ export interface operations {
                     expiryYear: number;
                     cardholderName?: string;
                     billingAddress?: {
+                        line1?: string;
+                        line2?: string;
+                        city?: string;
+                        state?: string;
+                        postalCode?: string;
+                        country?: string;
+                    };
+                    email?: string;
+                    shippingAddress?: {
+                        name?: string;
                         line1?: string;
                         line2?: string;
                         city?: string;
