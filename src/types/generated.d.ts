@@ -2826,18 +2826,21 @@ export interface operations {
                     /** @enum {string} */
                     side: "buy" | "sell";
                     amount: string;
+                    max?: boolean;
                 };
                 "application/x-www-form-urlencoded": {
                     symbol: string;
                     /** @enum {string} */
                     side: "buy" | "sell";
                     amount: string;
+                    max?: boolean;
                 };
                 "multipart/form-data": {
                     symbol: string;
                     /** @enum {string} */
                     side: "buy" | "sell";
                     amount: string;
+                    max?: boolean;
                 };
             };
         };
