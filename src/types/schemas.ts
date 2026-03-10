@@ -13,13 +13,15 @@ export const ChainSchema = z.enum([
   "tempo-mainnet",
   "solana",
   "solana-devnet",
+  "stellar",
+  "stellar-testnet",
 ]);
 export type Chain = z.infer<typeof ChainSchema>;
 
-export const ChainTypeSchema = z.enum(["evm", "solana"]);
+export const ChainTypeSchema = z.enum(["evm", "solana", "stellar"]);
 export type ChainType = z.infer<typeof ChainTypeSchema>;
 
-export const CurrencySchema = z.enum(["ETH", "SOL", "USDC", "pathUSD"]);
+export const CurrencySchema = z.enum(["ETH", "SOL", "USDC", "pathUSD", "XLM"]);
 export type Currency = z.infer<typeof CurrencySchema>;
 
 export const EvmChainSchema = z.enum([
@@ -33,8 +35,11 @@ export type EvmChain = z.infer<typeof EvmChainSchema>;
 export const SolanaChainSchema = z.enum(["solana", "solana-devnet"]);
 export type SolanaChain = z.infer<typeof SolanaChainSchema>;
 
+export const StellarChainSchema = z.enum(["stellar", "stellar-testnet"]);
+export type StellarChain = z.infer<typeof StellarChainSchema>;
+
 // Mainnet chains only
-export const MainnetChainSchema = z.enum(["ethereum", "base", "tempo-mainnet", "solana"]);
+export const MainnetChainSchema = z.enum(["ethereum", "base", "tempo-mainnet", "solana", "stellar"]);
 export type MainnetChain = z.infer<typeof MainnetChainSchema>;
 
 // Testnet chains only
@@ -43,6 +48,7 @@ export const TestnetChainSchema = z.enum([
   "base-sepolia",
   "tempo",
   "solana-devnet",
+  "stellar-testnet",
 ]);
 export type TestnetChain = z.infer<typeof TestnetChainSchema>;
 
@@ -58,10 +64,15 @@ export const SolanaAddressSchema = z
   .string()
   .regex(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/, "Invalid Solana address");
 
+export const StellarAddressSchema = z
+  .string()
+  .regex(/^G[A-Z2-7]{55}$/, "Invalid Stellar address");
+
 export const AddressSchema = z.string().refine(
   (val) =>
     /^0x[a-fA-F0-9]{40}$/.test(val) ||
-    /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(val),
+    /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(val) ||
+    /^G[A-Z2-7]{55}$/.test(val),
   { message: "Invalid address" }
 );
 
@@ -186,7 +197,7 @@ export type TransactionStatus = z.infer<typeof TransactionStatusSchema>;
 // ============================================================================
 
 export const SwapOptionsSchema = z.object({
-  chain: z.literal("solana").or(z.literal("solana-devnet")),
+  chain: z.literal("solana").or(z.literal("solana-devnet")).or(z.literal("stellar")).or(z.literal("stellar-testnet")),
   from: z.string(), // Token symbol or address
   to: z.string(), // Token symbol or address
   amount: z.string(),
@@ -230,6 +241,30 @@ export const SolanaTransferOptionsSchema = z.object({
 });
 export type SolanaTransferOptions = z.infer<typeof SolanaTransferOptionsSchema>;
 
+export const StellarTransferOptionsSchema = z.object({
+  chain: StellarChainSchema,
+  to: StellarAddressSchema,
+  amount: z.string(),
+  currency: z.enum(["XLM", "USDC"]),
+});
+export type StellarTransferOptions = z.infer<typeof StellarTransferOptionsSchema>;
+
+export const StellarTrustlineOptionsSchema = z.object({
+  chain: StellarChainSchema,
+  assetCode: z.string().min(1).max(12),
+  assetIssuer: StellarAddressSchema,
+});
+export type StellarTrustlineOptions = z.infer<typeof StellarTrustlineOptionsSchema>;
+
+export const StellarTrustlineResponseSchema = z.object({
+  transactionHash: z.string(),
+  status: z.string(),
+  assetCode: z.string(),
+  assetIssuer: z.string(),
+  explorerUrl: z.string().optional(),
+});
+export type StellarTrustlineResponse = z.infer<typeof StellarTrustlineResponseSchema>;
+
 export const SubmitTransactionSchema = z.object({
   transactionHash: z.string(),
   status: z.string(),
@@ -268,10 +303,40 @@ export const SolanaTokenSearchResponseSchema = z.object({
 });
 export type SolanaTokenSearchResponse = z.infer<typeof SolanaTokenSearchResponseSchema>;
 
+export const StellarTokensResponseSchema = z.object({
+  address: z.string(),
+  tokens: z.array(
+    z.object({
+      assetCode: z.string(),
+      assetIssuer: z.string().nullable(),
+      symbol: z.string(),
+      name: z.string(),
+      balance: z.string(),
+      decimals: z.number(),
+      logoURI: z.string().nullable(),
+    }),
+  ),
+});
+export type StellarTokensResponse = z.infer<typeof StellarTokensResponseSchema>;
+
+export const StellarTokenSearchResponseSchema = z.object({
+  tokens: z.array(
+    z.object({
+      assetCode: z.string(),
+      assetIssuer: z.string().nullable(),
+      symbol: z.string(),
+      name: z.string(),
+      decimals: z.number(),
+      logoURI: z.string().nullable(),
+    }),
+  ),
+});
+export type StellarTokenSearchResponse = z.infer<typeof StellarTokenSearchResponseSchema>;
+
 export const OnrampCryptoOptionsSchema = z.object({
   wallet_address: z.string(),
   provider: z.enum(["auto", "stripe", "coinbase"]).optional(),
-  chain: z.enum(["base", "solana", "polygon"]).optional(),
+  chain: z.enum(["base", "solana", "polygon", "stellar"]).optional(),
   fiat_amount: z.string().optional(),
   fiat_currency: z.string().optional(),
   lock_wallet_address: z.boolean().optional(),
@@ -285,7 +350,7 @@ export const OnrampCryptoResponseSchema = z.object({
   url: z.string(),
   sessionId: z.string(),
   status: z.literal("initiated"),
-  destinationChain: z.enum(["base", "solana", "polygon"]),
+  destinationChain: z.enum(["base", "solana", "polygon", "stellar"]),
   destinationAddress: z.string(),
   destinationCurrency: z.literal("USDC"),
   clientSecret: z.string().optional(),
@@ -487,6 +552,8 @@ export const CHAIN_IDS: Record<Chain, number> = {
   "tempo-mainnet": 4217,
   solana: 101,
   "solana-devnet": 102,
+  stellar: 103,
+  "stellar-testnet": 104,
 };
 
 // Chain name to ID mapping

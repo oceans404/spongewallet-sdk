@@ -36,6 +36,8 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
             "tempo-mainnet",
             "solana",
             "solana-devnet",
+            "stellar",
+            "stellar-testnet",
           ],
           description:
             "Optional: Specific chain to check balance for. If not provided, returns balances for all chains.",
@@ -242,12 +244,12 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
       properties: {
         sourceChain: {
           type: "string",
-          enum: ["ethereum", "base", "sepolia", "base-sepolia", "solana", "solana-devnet"],
+          enum: ["ethereum", "base", "sepolia", "base-sepolia", "solana", "solana-devnet", "stellar", "stellar-testnet"],
           description: "The source chain to bridge FROM",
         },
         destinationChain: {
           type: "string",
-          enum: ["ethereum", "base", "sepolia", "base-sepolia", "solana", "solana-devnet"],
+          enum: ["ethereum", "base", "sepolia", "base-sepolia", "solana", "solana-devnet", "stellar", "stellar-testnet"],
           description: "The destination chain to bridge TO",
         },
         token: {
@@ -308,6 +310,132 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     },
   },
   {
+    name: "stellar_transfer",
+    description:
+      "Transfer XLM or USDC on Stellar mainnet or testnet. Supports native XLM and USDC transfers.",
+    input_schema: {
+      type: "object",
+      properties: {
+        chain: {
+          type: "string",
+          enum: ["stellar", "stellar-testnet"],
+          description: "The Stellar network to use",
+        },
+        to: {
+          type: "string",
+          description: "The recipient Stellar address (G...)",
+        },
+        amount: {
+          type: "string",
+          description: "The amount to transfer",
+        },
+        currency: {
+          type: "string",
+          enum: ["XLM", "USDC"],
+          description: "The currency to transfer",
+        },
+      },
+      required: ["chain", "to", "amount", "currency"],
+    },
+  },
+  {
+    name: "stellar_swap",
+    description:
+      "Swap tokens on Stellar using DEX path payments. Finds the best route and executes the swap.",
+    input_schema: {
+      type: "object",
+      properties: {
+        chain: {
+          type: "string",
+          enum: ["stellar", "stellar-testnet"],
+          description: "The Stellar network to use",
+        },
+        inputToken: {
+          type: "string",
+          description:
+            "The token to swap from (symbol like 'XLM', 'USDC', or asset code)",
+        },
+        outputToken: {
+          type: "string",
+          description:
+            "The token to swap to (symbol like 'XLM', 'USDC', or asset code)",
+        },
+        amount: {
+          type: "string",
+          description: "The amount of input token to swap",
+        },
+        slippageBps: {
+          type: "number",
+          description:
+            "Slippage tolerance in basis points (default: 50 = 0.5%)",
+        },
+      },
+      required: ["chain", "inputToken", "outputToken", "amount"],
+    },
+  },
+  {
+    name: "get_stellar_tokens",
+    description:
+      "List all tokens held by the agent's Stellar wallet, with balances and metadata.",
+    input_schema: {
+      type: "object",
+      properties: {
+        chain: {
+          type: "string",
+          enum: ["stellar", "stellar-testnet"],
+          description: "The Stellar network to use",
+        },
+      },
+      required: ["chain"],
+    },
+  },
+  {
+    name: "search_stellar_tokens",
+    description: "Search Stellar tokens by symbol or name.",
+    input_schema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "Search query (symbol or name)",
+        },
+        limit: {
+          type: "number",
+          description: "Max results (default 10, max 20)",
+        },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "stellar_add_trustline",
+    description:
+      "Add a trustline to the agent's Stellar wallet so it can hold a non-XLM asset. " +
+      "Required before receiving any asset other than native XLM (e.g., USDC). " +
+      "Costs 0.5 XLM in base reserve.",
+    input_schema: {
+      type: "object",
+      properties: {
+        chain: {
+          type: "string",
+          enum: ["stellar", "stellar-testnet"],
+          description: "The Stellar network to use",
+        },
+        assetCode: {
+          type: "string",
+          description:
+            "The asset code to trust (e.g., 'USDC', 'EURC', 1-12 characters)",
+        },
+        assetIssuer: {
+          type: "string",
+          description:
+            "The issuer's Stellar address (G...). For USDC this is the Circle issuer address.",
+        },
+      },
+      required: ["chain", "assetCode", "assetIssuer"],
+    },
+  },
+  {
     name: "get_transaction_status",
     description: "Check the status of a transaction by its hash/signature.",
     input_schema: {
@@ -328,6 +456,8 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
             "tempo-mainnet",
             "solana",
             "solana-devnet",
+            "stellar",
+            "stellar-testnet",
           ],
           description: "Chain for the transaction",
         },
@@ -371,7 +501,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         chain: {
           type: "string",
-          enum: ["base", "solana", "polygon"],
+          enum: ["base", "solana", "polygon", "stellar"],
           description: "Destination chain for purchased USDC (default: base)",
         },
         fiat_amount: {
@@ -438,7 +568,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         preferred_chain: {
           type: "string",
-          enum: ["base", "solana", "ethereum"],
+          enum: ["base", "solana", "ethereum", "stellar"],
           description:
             "Preferred chain for x402 payment. If set, this chain will be tried first. Defaults to Base.",
         },

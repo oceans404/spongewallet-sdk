@@ -129,6 +129,36 @@ export class ToolExecutor {
           query: String(args.query ?? ""),
           limit: args.limit !== undefined ? String(args.limit) : undefined,
         });
+      case "stellar_transfer":
+        return this.http.post<unknown>("/api/transfers/stellar", {
+          chain: args.chain,
+          to: args.to,
+          amount: args.amount,
+          currency: args.currency,
+        });
+      case "stellar_swap":
+        return this.http.post<unknown>("/api/transactions/swap", {
+          chain: args.chain,
+          inputToken: args.inputToken ?? args.input_token,
+          outputToken: args.outputToken ?? args.output_token,
+          amount: args.amount,
+          slippageBps: args.slippageBps ?? args.slippage_bps,
+        });
+      case "get_stellar_tokens":
+        return this.http.get<unknown>("/api/stellar/tokens", {
+          chain: String(args.chain ?? ""),
+        });
+      case "search_stellar_tokens":
+        return this.http.get<unknown>("/api/stellar/tokens/search", {
+          query: String(args.query ?? ""),
+          limit: args.limit !== undefined ? String(args.limit) : undefined,
+        });
+      case "stellar_add_trustline":
+        return this.http.post<unknown>("/api/stellar/trustline", {
+          chain: args.chain,
+          assetCode: args.assetCode ?? args.asset_code,
+          assetIssuer: args.assetIssuer ?? args.asset_issuer,
+        });
       case "get_transaction_status": {
         const txHash = (args.txHash ?? args.transaction_hash) as string;
         if (!txHash) {

@@ -353,12 +353,51 @@ export class SpongeWallet {
   }
 
   /**
+   * Transfer on Stellar (allowlist + spending limits enforced)
+   */
+  async stellarTransfer(options: {
+    chain: "stellar" | "stellar-testnet";
+    to: string;
+    amount: string;
+    currency: "XLM" | "USDC";
+  }) {
+    return this.publicTools.stellarTransfer(options);
+  }
+
+  /**
+   * List all tokens held by the Stellar wallet
+   */
+  async getStellarTokens(chain: "stellar" | "stellar-testnet") {
+    return this.publicTools.getStellarTokens(chain);
+  }
+
+  /**
+   * Search Stellar tokens by symbol or name
+   */
+  async searchStellarTokens(query: string, limit?: number) {
+    return this.publicTools.searchStellarTokens(query, limit);
+  }
+
+  /**
+   * Add a trustline to the Stellar wallet for a non-XLM asset.
+   * Required before the wallet can receive that asset (e.g., USDC).
+   * Costs 0.5 XLM in base reserve.
+   */
+  async addStellarTrustline(options: {
+    chain: "stellar" | "stellar-testnet";
+    assetCode: string;
+    assetIssuer: string;
+  }) {
+    return this.publicTools.addStellarTrustline(options);
+  }
+
+  /**
    * Create a fiat onramp link to buy USDC into this agent's wallet.
    */
   async onrampCrypto(options: {
     wallet_address: string;
     provider?: "auto" | "stripe" | "coinbase";
-    chain?: "base" | "solana" | "polygon";
+    chain?: "base" | "solana" | "polygon" | "stellar";
     fiat_amount?: string;
     fiat_currency?: string;
     lock_wallet_address?: boolean;
@@ -407,8 +446,8 @@ export class SpongeWallet {
     method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
     headers?: Record<string, string>;
     body?: unknown;
-    preferredChain?: "base" | "solana" | "ethereum";
-    preferred_chain?: "base" | "solana" | "ethereum";
+    preferredChain?: "base" | "solana" | "ethereum" | "stellar";
+    preferred_chain?: "base" | "solana" | "ethereum" | "stellar";
   }) {
     return this.publicTools.x402Fetch(options);
   }

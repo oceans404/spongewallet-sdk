@@ -107,6 +107,49 @@ describe("TransactionsApi.transfer", () => {
     });
   });
 
+  it("uses /api/transfers/stellar for Stellar chains", async () => {
+    const http = {
+      post: vi.fn().mockResolvedValue({
+        transactionHash: "abc123def456abc123def456abc123def456abc123def456abc123def456abcd",
+        status: "pending",
+      }),
+      get: vi.fn(),
+    };
+    const api = new TransactionsApi(http as any, "agent-1");
+
+    const result = await api.transfer({
+      chain: "stellar",
+      to: "GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7",
+      amount: "10",
+      currency: "XLM",
+    });
+
+    expect(result.txHash).toBe("abc123def456abc123def456abc123def456abc123def456abc123def456abcd");
+    expect(http.post).toHaveBeenCalledWith("/api/transfers/stellar", {
+      chain: "stellar",
+      to: "GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7",
+      amount: "10",
+      currency: "XLM",
+    });
+  });
+
+  it("rejects unsupported currency for Stellar chains", async () => {
+    const http = {
+      post: vi.fn(),
+      get: vi.fn(),
+    };
+    const api = new TransactionsApi(http as any, "agent-1");
+
+    await expect(
+      api.transfer({
+        chain: "stellar",
+        to: "GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7",
+        amount: "10",
+        currency: "ETH",
+      }),
+    ).rejects.toThrow("Currency ETH not supported on stellar");
+  });
+
   it("rejects unsupported currency for EVM chains", async () => {
     const http = {
       post: vi.fn(),

@@ -108,6 +108,29 @@ export class TransactionsApi {
       });
     }
 
+    // Stellar transfers
+    if (validated.chain === "stellar" || validated.chain === "stellar-testnet") {
+      if (validated.currency !== "XLM" && validated.currency !== "USDC") {
+        throw new Error(`Currency ${validated.currency} not supported on ${validated.chain}`);
+      }
+
+      const response = await this.http.post<unknown>("/api/transfers/stellar", {
+        chain: validated.chain,
+        to: validated.to,
+        amount: validated.amount,
+        currency: validated.currency,
+      });
+
+      const parsed = SubmitTransactionSchema.parse(response);
+      const status = parsed.status === "pending" || parsed.status === "submitted" ? "pending" : "confirmed";
+      return TransactionResultSchema.parse({
+        txHash: parsed.transactionHash,
+        status,
+        explorerUrl: parsed.explorerUrl,
+        chainId,
+      });
+    }
+
     // Tempo pathUSD transfers
     if (validated.chain === "tempo" || validated.chain === "tempo-mainnet" || validated.currency === "pathUSD") {
       if ((validated.chain !== "tempo" && validated.chain !== "tempo-mainnet") || validated.currency !== "pathUSD") {

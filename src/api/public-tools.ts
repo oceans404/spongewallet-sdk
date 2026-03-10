@@ -2,9 +2,14 @@ import {
   DetailedBalancesSchema,
   EvmTransferOptionsSchema,
   SolanaTransferOptionsSchema,
+  StellarTransferOptionsSchema,
+  StellarTrustlineOptionsSchema,
+  StellarTrustlineResponseSchema,
   SubmitTransactionSchema,
   SolanaTokensResponseSchema,
   SolanaTokenSearchResponseSchema,
+  StellarTokensResponseSchema,
+  StellarTokenSearchResponseSchema,
   OnrampCryptoOptionsSchema,
   OnrampCryptoResponseSchema,
   SignupBonusClaimResponseSchema,
@@ -14,10 +19,15 @@ import {
   type Chain,
   type EvmTransferOptions,
   type SolanaTransferOptions,
+  type StellarTransferOptions,
+  type StellarTrustlineOptions,
+  type StellarTrustlineResponse,
   type SubmitTransaction,
   type DetailedBalances,
   type SolanaTokensResponse,
   type SolanaTokenSearchResponse,
+  type StellarTokensResponse,
+  type StellarTokenSearchResponse,
   type OnrampCryptoOptions,
   type OnrampCryptoResponse,
   type SignupBonusClaimResponse,
@@ -25,6 +35,7 @@ import {
   type SpongeResponse,
   type X402PaymentResponse,
   type SolanaChain,
+  type StellarChain,
 } from "../types/schemas.js";
 import type { HttpClient } from "./http.js";
 import {
@@ -32,7 +43,6 @@ import {
   getApiSolanaTokens,
   getApiSolanaTokensSearch,
   getApiTransactionsHistory,
-  postApiOnrampCrypto,
   postApiSignupBonusClaim,
   postApiTransfersEvm,
   postApiTransfersSolana,
@@ -73,8 +83,8 @@ export interface X402FetchOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
   body?: unknown;
-  preferredChain?: "base" | "solana" | "ethereum";
-  preferred_chain?: "base" | "solana" | "ethereum";
+  preferredChain?: "base" | "solana" | "ethereum" | "stellar";
+  preferred_chain?: "base" | "solana" | "ethereum" | "stellar";
 }
 
 export class PublicToolsApi {
@@ -135,6 +145,30 @@ export class PublicToolsApi {
     return SolanaTokenSearchResponseSchema.parse(response);
   }
 
+  async stellarTransfer(options: StellarTransferOptions): Promise<SubmitTransaction> {
+    const validated = StellarTransferOptionsSchema.parse(options);
+    const response = await this.http.post<unknown>("/api/transfers/stellar", validated);
+    return SubmitTransactionSchema.parse(response);
+  }
+
+  async getStellarTokens(chain: StellarChain): Promise<StellarTokensResponse> {
+    const response = await this.http.get<unknown>("/api/stellar/tokens", { chain });
+    return StellarTokensResponseSchema.parse(response);
+  }
+
+  async searchStellarTokens(query: string, limit?: number): Promise<StellarTokenSearchResponse> {
+    const params: Record<string, string> = { query };
+    if (limit !== undefined) params.limit = limit.toString();
+    const response = await this.http.get<unknown>("/api/stellar/tokens/search", params);
+    return StellarTokenSearchResponseSchema.parse(response);
+  }
+
+  async addStellarTrustline(options: StellarTrustlineOptions): Promise<StellarTrustlineResponse> {
+    const validated = StellarTrustlineOptionsSchema.parse(options);
+    const response = await this.http.post<unknown>("/api/stellar/trustline", validated);
+    return StellarTrustlineResponseSchema.parse(response);
+  }
+
   async getTransactionHistoryDetailed(
     options: TransactionHistoryDetailedOptions = {},
   ): Promise<TransactionHistoryDetailed> {
@@ -150,10 +184,7 @@ export class PublicToolsApi {
 
   async createOnrampLink(options: OnrampCryptoOptions): Promise<OnrampCryptoResponse> {
     const validated = OnrampCryptoOptionsSchema.parse(options);
-    const response = await postApiOnrampCrypto({
-      client: getHeyApiClient(this.http),
-      body: validated,
-    });
+    const response = await this.http.post<unknown>("/api/onramp/crypto", validated);
     return OnrampCryptoResponseSchema.parse(response);
   }
 
